@@ -38,5 +38,6 @@ ext {
     rulesVersion = '1.0.1'
     espressoVersion = '3.0.1'
     supportLibraryVersion = '27.1.0'
+    daggerVersion = '2.15'
 
 }
