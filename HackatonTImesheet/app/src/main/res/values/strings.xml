@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Zup Timesheet/Refund</string>
+    <string name="title_projects">Projetos</string>
+    <string name="title_timesheet_approvals">Aprovar Horas</string>
+    <string name="title_refund_approvals">Aprovar Reembolsos</string>
+
+    <string name="api_base_url">https://rest.sandbox.netsuite.com/app/site/hosting/</string>
+</resources>
