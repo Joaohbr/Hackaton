@@ -28,19 +28,21 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     //retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 
     //dagger
-    compile 'com.google.dagger:dagger-android:2.12'
+    implementation 'com.google.dagger:dagger-android:2.12'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
 
     //guava
-    compile ('com.google.guava:guava:24.0-android') {
+    implementation ('com.google.guava:guava:24.0-android') {
         exclude group: 'com.google.code.findbugs'
     }
 
     //Gson
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
+    implementation "br.com.zup:multi-state-layout:1.0.3"
 }

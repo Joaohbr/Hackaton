@@ -6,10 +6,12 @@ package br.com.zup.hackatontimesheet.timesheet_approvals.ui;
 
 public interface TimesheetApprovalsContract {
     interface View {
-
+        void showProjectDialog(String [] projects);
     }
 
     interface Presenter {
+        void onAddTimesheet();
 
+        void onProjectSelected(int index);
     }
 }

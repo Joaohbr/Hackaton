@@ -1,8 +1,19 @@
 <resources>
     <string name="app_name">Zup Timesheet/Refund</string>
+
+    <string name="title_refund_report_activity">Relatório de despesas</string>
+
     <string name="title_projects">Projetos</string>
-    <string name="title_timesheet_approvals">Aprovar Horas</string>
-    <string name="title_refund_approvals">Aprovar Reembolsos</string>
+    <string name="title_timesheet_approvals">Horas</string>
+    <string name="title_refund_approvals">Reembolsos</string>
+    <string name="title_project_dialog">Selecione seu projeto</string>
+
+    <string name="description_time_empty_view">Lançe suas horas</string>
+    <string name="description_refund_empty_view">Crie um relatório de despesas</string>
+    <string name="description_refund_report_empty_view">Adicione despesas ao seu relatório</string>
+
+    <string name="snackbar_generic_error">"Ops! Algo deu errado"</string>
+    <string name="snackbar_sent_message">"Enviado!"</string>
 
     <string name="api_base_url">https://rest.sandbox.netsuite.com/app/site/hosting/</string>
 </resources>
