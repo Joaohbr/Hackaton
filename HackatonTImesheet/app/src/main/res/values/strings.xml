@@ -15,5 +15,10 @@
     <string name="snackbar_generic_error">"Ops! Algo deu errado"</string>
     <string name="snackbar_sent_message">"Enviado!"</string>
 
+    <string name="advance_money_hint">Adiantamento</string>
+    <string name="configuration_subheader">Configurações</string>
+
+    <string name="real_placeholder">R$0,00</string>
+
     <string name="api_base_url">https://rest.sandbox.netsuite.com/app/site/hosting/</string>
 </resources>

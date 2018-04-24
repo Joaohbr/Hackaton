@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import br.com.zup.hackatontimesheet.R;
 import br.com.zup.hackatontimesheet.home.ui.dialogs.SelectProjectDialog;
-import br.com.zup.hackatontimesheet.utils.generic_fragments.ListAndFABFragment;
-import br.com.zup.multistatelayout.MultiStateLayout;
+import br.com.zup.hackatontimesheet.utils.generic_fragments.list_and_fab.ListAndFABFragment;
 
 /**
  * Created by joaoh on 13/04/2018.
@@ -41,7 +40,7 @@ public class TimesheetApprovalsFragment extends ListAndFABFragment implements Ti
     }
 
     @Override
-    protected View getEmptyView(LayoutInflater inflater, MultiStateLayout container) {
+    protected View getEmptyView(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.empty_list_view, container, false);
 
         ImageView myImage = view.findViewById(R.id.my_image);

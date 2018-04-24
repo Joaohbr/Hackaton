@@ -23,7 +23,7 @@ import br.com.zup.hackatontimesheet.R;
 import br.com.zup.hackatontimesheet.home.ui.dialogs.SelectProjectDialog;
 import br.com.zup.hackatontimesheet.refund_approvals.model.RefundEntry;
 import br.com.zup.hackatontimesheet.refund_report.ui.RefundReportActivity;
-import br.com.zup.hackatontimesheet.utils.generic_fragments.ListAndFABFragment;
+import br.com.zup.hackatontimesheet.utils.generic_fragments.list_and_fab.ListAndFABFragment;
 import br.com.zup.multistatelayout.MultiStateLayout;
 
 /**
@@ -60,7 +60,7 @@ public class RefundApprovalsFragment extends ListAndFABFragment
     }
 
     @Override
-    protected View getEmptyView(LayoutInflater inflater, MultiStateLayout container) {
+    protected View getEmptyView(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.empty_list_view, container,false);
 
         ImageView myImage = view.findViewById(R.id.my_image);

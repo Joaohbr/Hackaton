@@ -1,4 +1,4 @@
-package br.com.zup.hackatontimesheet.utils.generic_fragments;
+package br.com.zup.hackatontimesheet.utils.generic_fragments.list_and_fab;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,15 +8,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import br.com.zup.hackatontimesheet.R;
+import br.com.zup.hackatontimesheet.utils.generic_fragments.BaseFragment;
 import br.com.zup.multistatelayout.MultiStateLayout;
 
 /**
  * Created by joaoh on 17/04/2018.
  */
 
-public abstract class ListAndFABFragment extends BaseFragment {
+public abstract class ListAndFABFragment extends BaseFragment implements ListAndFABContract.View {
 
     protected CoordinatorLayout mCoordinatorLayout;
     protected MultiStateLayout mMultiStateLayout;
@@ -40,8 +42,7 @@ public abstract class ListAndFABFragment extends BaseFragment {
 
         return view;
     }
-
-    protected abstract View getEmptyView(LayoutInflater inflater, MultiStateLayout container);
+    protected abstract View getEmptyView(LayoutInflater inflater, ViewGroup container);
 
     protected abstract FloatingActionButton.OnClickListener getFABClickListener();
 }

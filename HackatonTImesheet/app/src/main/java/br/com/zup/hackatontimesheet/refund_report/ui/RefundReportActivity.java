@@ -1,39 +1,38 @@
 package br.com.zup.hackatontimesheet.refund_report.ui;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import br.com.zup.hackatontimesheet.R;
-import br.com.zup.hackatontimesheet.utils.generic_activities.ListAndFABActivity;
-import br.com.zup.multistatelayout.MultiStateLayout;
+import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
 
 /**
  * Created by joaoh on 13/04/2018.
  */
 
-public class RefundReportActivity extends ListAndFABActivity implements RefundReportContract.View {
+public class RefundReportActivity extends BaseActivity implements RefundReportContract.View {
+
+    private Spinner currencySpinner;
+    private TextView totalTextView;
+    private RefundReportContract.Presenter mPresenter;
 
     @Override
-    protected View getEmptyView(LayoutInflater inflater, MultiStateLayout container) {
-        View view = inflater.inflate(R.layout.empty_list_view, container,false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_refund_report);
 
-        ImageView myImage = view.findViewById(R.id.my_image);
-        TextView myDescription = view.findViewById(R.id.my_description);
+        mPresenter = new RefundReportPresenter(this);
 
-        myImage.setImageResource(R.drawable.ic_content_paste_black_48dp);
-        myDescription.setText(R.string.description_refund_report_empty_view);
+        currencySpinner = findViewById(R.id.currency_spinner);
+        totalTextView = findViewById(R.id.total);
 
-        return view;
+        mPresenter.fetchData();
     }
 
     @Override
-    protected FloatingActionButton.OnClickListener getFABClickListener() {
-        return null;
+    public void setupCurrencySpinner(String[] currencies) {
+        currencySpinner.setAdapter(new CurrencySpinnerAdapter(this,currencies));
     }
 }

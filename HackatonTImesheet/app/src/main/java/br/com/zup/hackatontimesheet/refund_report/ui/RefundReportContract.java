@@ -6,10 +6,10 @@ package br.com.zup.hackatontimesheet.refund_report.ui;
 
 public interface RefundReportContract {
     interface View {
-
+        void setupCurrencySpinner(String [] currencies);
     }
 
     interface Presenter {
-
+        void fetchData();
     }
 }

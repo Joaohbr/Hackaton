@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/configurations_subheader"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/title_height"
+        android:textSize="@dimen/subheader_text_size"
+        android:textColor="@color/colorBlack54"
+        android:text="@string/configuration_subheader"/>
+
+    <Spinner
+        android:id="@+id/currency_spinner"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:paddingVertical="@dimen/activity_vertical_small_margin"
+        android:layout_alignBottom="@id/advance_input"
+        android:layout_width="@dimen/spinner_smal_size"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown">
+    </Spinner>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/advance_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Adiantamento"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@+id/currency_spinner"
+        android:layout_below="@id/configurations_subheader"
+        app:hintTextAppearance="@style/HintText"
+        app:errorTextAppearance="@style/ErrorText">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/advance_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_marginTop="@dimen/activity_vertical_small_margin"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/currency_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/evidence_text_size"
+        android:text="@string/real_placeholder"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/total"
+        android:background="@color/colorBlack12"
+        ></View>
+    
+</RelativeLayout>
