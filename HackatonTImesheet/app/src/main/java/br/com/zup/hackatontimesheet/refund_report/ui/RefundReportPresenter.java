@@ -1,5 +1,10 @@
 package br.com.zup.hackatontimesheet.refund_report.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.zup.hackatontimesheet.refund_report.model.RefundEntry;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -9,9 +14,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class RefundReportPresenter implements RefundReportContract.Presenter {
 
     RefundReportContract.View mView;
+    RefundReportContract.ChildView mChildView;
 
-    public RefundReportPresenter(RefundReportContract.View view) {
+    public RefundReportPresenter(RefundReportContract.View view, RefundReportContract.ChildView childView) {
         mView = checkNotNull(view);
+        mChildView = checkNotNull(childView);
     }
 
     @Override
@@ -20,7 +27,21 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
                 "Moeda",
                 "Real",
                 "Dolar",
-                "Euro"
+                "Euro",
         });
+
+        List<RefundEntry> list = new ArrayList<>();
+        mChildView.showRefundEntries(list);
     }
+
+    @Override
+    public void onAddRefundEntry() {
+        mChildView.openRefundEntry(null);
+    }
+
+    @Override
+    public void onRefundEntryClick(RefundEntry entry, int position) {
+        mChildView.openRefundEntry(entry);
+    }
+
 }

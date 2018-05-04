@@ -1,4 +1,4 @@
-package br.com.zup.hackatontimesheet.refund_report.ui;
+package br.com.zup.hackatontimesheet.utils.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,10 +14,10 @@ import br.com.zup.hackatontimesheet.R;
  * Created by joaoh on 24/04/2018.
  */
 
-public class CurrencySpinnerAdapter extends ArrayAdapter<String> {
+public class SimpleSpinnerAdapter extends ArrayAdapter<String> {
 
-    public CurrencySpinnerAdapter(@NonNull Context context, @NonNull String[] objects) {
-        super(context, R.layout.currency_list_item, objects);
+    public SimpleSpinnerAdapter(@NonNull Context context, @NonNull String[] objects) {
+        super(context, android.R.layout.simple_spinner_item, objects);
     }
 
     @Override

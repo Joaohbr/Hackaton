@@ -7,7 +7,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by joaoh on 19/04/2018.
  */
 
-public class RefundEntry {
+public class RefundApprovalEntry {
 
     private String name;
     private String value;
@@ -15,10 +15,11 @@ public class RefundEntry {
     private boolean isNegativeValue;
 
 
-    public RefundEntry(String name, String value, String date) {
+    public RefundApprovalEntry(String name, String value, String date, boolean isNegativeValue) {
         this.name = checkNotNull(name);
         this.value = checkNotNull(value);
         this.date = checkNotNull(date);
+        this.isNegativeValue = isNegativeValue;
     }
 
     public String getName() {

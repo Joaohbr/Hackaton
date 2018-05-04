@@ -1,16 +1,12 @@
 package br.com.zup.hackatontimesheet.home.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import br.com.zup.hackatontimesheet.R;
-import br.com.zup.hackatontimesheet.refund_approvals.ui.RefundApprovalsFragment;
+import br.com.zup.hackatontimesheet.refund_approvals.ui.RefundApprovalsListFragment;
 import br.com.zup.hackatontimesheet.timesheet_approvals.ui.TimesheetApprovalsFragment;
 import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
 
@@ -29,7 +25,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     openFragment(TimesheetApprovalsFragment. newInstance(),R.id.container);
                     return true;
                 case R.id.navigation_refund_approvals:
-                    openFragment(RefundApprovalsFragment.newInstance(),R.id.container);
+                    openFragment(RefundApprovalsListFragment.newInstance(),R.id.container);
                     return true;
             }
             return false;

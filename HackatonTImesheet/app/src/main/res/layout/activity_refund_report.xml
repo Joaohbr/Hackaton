@@ -10,7 +10,7 @@
 
     <fragment
         android:name="br.com.zup.hackatontimesheet.refund_report.ui.RefundListFragment"
-        android:id="@+id/child_fragment"
+        android:id="@+id/refund_list_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/list_and_fab_layout"></fragment>

@@ -18,7 +18,7 @@ import br.com.zup.multistatelayout.MultiStateLayout;
  * Created by joaoh on 17/04/2018.
  */
 
-public abstract class ListAndFABFragment extends BaseFragment implements ListAndFABContract.View {
+public abstract class ListAndFABFragment extends BaseFragment {
 
     protected CoordinatorLayout mCoordinatorLayout;
     protected MultiStateLayout mMultiStateLayout;

@@ -21,7 +21,7 @@ import java.util.List;
 
 import br.com.zup.hackatontimesheet.R;
 import br.com.zup.hackatontimesheet.home.ui.dialogs.SelectProjectDialog;
-import br.com.zup.hackatontimesheet.refund_approvals.model.RefundEntry;
+import br.com.zup.hackatontimesheet.refund_approvals.model.RefundApprovalEntry;
 import br.com.zup.hackatontimesheet.refund_report.ui.RefundReportActivity;
 import br.com.zup.hackatontimesheet.utils.generic_fragments.list_and_fab.ListAndFABFragment;
 import br.com.zup.multistatelayout.MultiStateLayout;
@@ -30,17 +30,17 @@ import br.com.zup.multistatelayout.MultiStateLayout;
  * Created by joaoh on 16/04/2018.
  */
 
-public class RefundApprovalsFragment extends ListAndFABFragment
-        implements RefundApprovalsContract.View, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class RefundApprovalsListFragment extends ListAndFABFragment
+        implements RefundApprovalsContract.View, RefundApprovalsListRecyclerTouchHelper.RecyclerItemTouchHelperListener {
 
     RefundApprovalsContract.Presenter mPresenter;
     RefundApprovalsAdapter mAdapter;
 
-    public static RefundApprovalsFragment newInstance() {
+    public static RefundApprovalsListFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        RefundApprovalsFragment fragment = new RefundApprovalsFragment();
+        RefundApprovalsListFragment fragment = new RefundApprovalsListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +56,14 @@ public class RefundApprovalsFragment extends ListAndFABFragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
         mPresenter.fetchApprovals();
     }
 
@@ -98,18 +106,14 @@ public class RefundApprovalsFragment extends ListAndFABFragment
     }
 
     @Override
-    public void showApprovals(List<RefundEntry> approvals) {
-        mAdapter = new RefundApprovalsAdapter(approvals);
+    public void showApprovals(List<RefundApprovalEntry> approvals) {
+        mAdapter = new RefundApprovalsAdapter(approvals,
+                getResources().getColor(R.color.colorPrimary)
+                , getResources().getColor(R.color.colorRed));
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RefundApprovalsListRecyclerTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
 
         if(approvals.isEmpty()) {
@@ -121,7 +125,7 @@ public class RefundApprovalsFragment extends ListAndFABFragment
 
     @Override
     public void notifyApprovedItem() {
-        Snackbar.make(mCoordinatorLayout,R.string.snackbar_sent_message,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mCoordinatorLayout,R.string.snackbar_approve_success_message,Snackbar.LENGTH_SHORT).show();
         if(mAdapter.getItemCount() == 0) {
             mMultiStateLayout.setState(MultiStateLayout.State.EMPTY);
         }
@@ -129,7 +133,7 @@ public class RefundApprovalsFragment extends ListAndFABFragment
 
     @Override
     public void notifyReprovedItem() {
-        Snackbar.make(mCoordinatorLayout,R.string.snackbar_sent_message,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mCoordinatorLayout,R.string.snackbar_reprove_success_message,Snackbar.LENGTH_SHORT).show();
         if(mAdapter.getItemCount() == 0) {
             mMultiStateLayout.setState(MultiStateLayout.State.EMPTY);
         }
@@ -145,12 +149,53 @@ public class RefundApprovalsFragment extends ListAndFABFragment
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
 
         mAdapter.removeItem(viewHolder.getAdapterPosition());
-
-        if(direction == ItemTouchHelper.LEFT) {
-            mPresenter.onItemReproved(viewHolder.getAdapterPosition());
-        } else if(direction == ItemTouchHelper.RIGHT) {
-            mPresenter.onItemApproved(viewHolder.getAdapterPosition());
-        }
+        Snackbar  snackbar = Snackbar.make(mCoordinatorLayout, getSnackbarText(direction), Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.action_undo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.restoreItem();
+            }
+        });
+        snackbar.addCallback(getSnackbarCallback(direction, position));
+        snackbar.show();
     }
 
+    private Snackbar.Callback getSnackbarCallback(int direction, int position) {
+        return direction == ItemTouchHelper.LEFT ? getSnackbarRemoveCallback(position) : getSnackbarApproveCallback(position);
+    }
+
+    private String getSnackbarText(int direction) {
+        return direction == ItemTouchHelper.LEFT ? getString(R.string.snackbar_reproving_item) : getString(R.string.snackbar_approving_item);
+
+    }
+
+    private Snackbar.Callback getSnackbarRemoveCallback(int position) {
+        return new SnackbarCallback(position) {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                if(event != Snackbar.Callback.DISMISS_EVENT_ACTION)
+                    mPresenter.onItemReproved(this.position);
+            }
+        };
+    }
+
+    private Snackbar.Callback getSnackbarApproveCallback(final int position) {
+        return new SnackbarCallback(position) {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                if(event != Snackbar.Callback.DISMISS_EVENT_ACTION)
+                    mPresenter.onItemApproved(this.position);
+            }
+        };
+    }
+
+    private class SnackbarCallback extends Snackbar.Callback {
+        protected int position;
+
+        public SnackbarCallback(int position) {
+            this.position = position;
+        }
+    }
 }

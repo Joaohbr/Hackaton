@@ -6,6 +6,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import br.com.zup.hackatontimesheet.R;
+import br.com.zup.hackatontimesheet.utils.adapters.SimpleSpinnerAdapter;
 import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
 
 /**
@@ -23,7 +24,11 @@ public class RefundReportActivity extends BaseActivity implements RefundReportCo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refund_report);
 
-        mPresenter = new RefundReportPresenter(this);
+        RefundReportContract.ChildView childView = (RefundReportContract.ChildView)getSupportFragmentManager().findFragmentById(R.id.refund_list_fragment);
+
+        mPresenter = new RefundReportPresenter(this, childView);
+
+        childView.bindPresenter(mPresenter);
 
         currencySpinner = findViewById(R.id.currency_spinner);
         totalTextView = findViewById(R.id.total);
@@ -33,6 +38,8 @@ public class RefundReportActivity extends BaseActivity implements RefundReportCo
 
     @Override
     public void setupCurrencySpinner(String[] currencies) {
-        currencySpinner.setAdapter(new CurrencySpinnerAdapter(this,currencies));
+        SimpleSpinnerAdapter adapter = new SimpleSpinnerAdapter(this, currencies);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        currencySpinner.setAdapter(adapter);
     }
 }

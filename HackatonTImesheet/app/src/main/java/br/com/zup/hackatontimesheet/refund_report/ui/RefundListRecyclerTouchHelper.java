@@ -1,18 +1,19 @@
-package br.com.zup.hackatontimesheet.refund_approvals.ui;
+package br.com.zup.hackatontimesheet.refund_report.ui;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.View;
+
+import br.com.zup.hackatontimesheet.refund_approvals.ui.RefundApprovalsListFragment;
 
 /**
- * Created by joaoh on 19/04/2018.
+ * Created by joaoh on 03/05/2018.
  */
 
-public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
-    private RecyclerItemTouchHelperListener listener;
+public class RefundListRecyclerTouchHelper extends ItemTouchHelper.SimpleCallback {
+    private RefundListRecyclerTouchHelper.RecyclerItemTouchHelperListener listener;
 
-    public RecyclerItemTouchHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {
+    public RefundListRecyclerTouchHelper(int dragDirs, int swipeDirs, RefundListRecyclerTouchHelper.RecyclerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;
     }
@@ -30,20 +31,20 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            getDefaultUIUtil().onSelected(((RefundApprovalsAdapter.ViewHolder)viewHolder).foreground);
+            getDefaultUIUtil().onSelected(((RefundListAdapter.ViewHolder)viewHolder).foreground);
         }
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        getDefaultUIUtil().clearView(((RefundApprovalsAdapter.ViewHolder)viewHolder).foreground);
+        getDefaultUIUtil().clearView(((RefundListAdapter.ViewHolder)viewHolder).foreground);
     }
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        getDefaultUIUtil().onDraw(c, recyclerView, ((RefundApprovalsAdapter.ViewHolder)viewHolder).foreground, dX, dY,
+        getDefaultUIUtil().onDraw(c, recyclerView, ((RefundListAdapter.ViewHolder)viewHolder).foreground, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
@@ -61,3 +62,4 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position);
     }
 }
+

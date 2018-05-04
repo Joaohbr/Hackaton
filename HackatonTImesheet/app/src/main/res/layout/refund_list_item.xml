@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include layout="@layout/background_approval_layout"
-        android:id="@+id/refund_background_view" />
+    <include layout="@layout/foreground_refund_list_item"
+        android:id="@+id/refund_list_item_foreground"/>
 
-    <include layout="@layout/foreground_approval_layout"
-        android:id="@+id/refund_foreground_view"/>
+    <include layout="@layout/background_refund_list_item"
+        android:id="@+id/refund_list_item_background"/>
 
 </FrameLayout>

@@ -29,6 +29,11 @@
 
     <dimen name="spinner_smal_size">150dp</dimen>
 
+    <dimen name="bottom_margin_for_button">56dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_width">88dp</dimen>
+    <dimen name="button_horizontal_padding">8dp</dimen>
+    
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 

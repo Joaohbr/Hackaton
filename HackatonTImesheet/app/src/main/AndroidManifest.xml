@@ -22,7 +22,10 @@
 
         <activity android:name=".refund_report.ui.RefundReportActivity"
             android:label="@string/title_refund_report_activity">
+        </activity>
 
+        <activity android:name=".refund_entry.ui.RefundEntryActivity"
+            android:label="@string/title_refund_entry_activity">
         </activity>
     </application>
 

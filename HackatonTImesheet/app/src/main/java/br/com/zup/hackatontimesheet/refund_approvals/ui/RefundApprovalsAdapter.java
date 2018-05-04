@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.zup.hackatontimesheet.R;
-import br.com.zup.hackatontimesheet.refund_approvals.model.RefundEntry;
+import br.com.zup.hackatontimesheet.refund_approvals.model.RefundApprovalEntry;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -19,18 +19,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RefundApprovalsAdapter extends RecyclerView.Adapter<RefundApprovalsAdapter.ViewHolder> {
 
-    private List<RefundEntry> mRefunds;
-    private RefundEntry lastRemovedItem;
+    private List<RefundApprovalEntry> mRefunds;
+    private RefundApprovalEntry lastRemovedItem;
     private int lastRemovedItemPosition;
+    private int positiveColor, negativeColor;
 
-    public RefundApprovalsAdapter(List<RefundEntry> refunds) {
+    public RefundApprovalsAdapter(List<RefundApprovalEntry> refunds, int positiveColor, int negativeColor) {
         this.mRefunds = checkNotNull(refunds);
+        this.positiveColor = positiveColor;
+        this.negativeColor = negativeColor;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.refund_list_item, parent, false);
+                .inflate(R.layout.refund_approval_list_item, parent, false);
 
         return new RefundApprovalsAdapter.ViewHolder(itemView);
     }
@@ -40,6 +43,7 @@ public class RefundApprovalsAdapter extends RecyclerView.Adapter<RefundApprovals
 
         holder.name.setText(mRefunds.get(position).getName());
         holder.value.setText(mRefunds.get(position).getValue());
+        holder.value.setTextColor(mRefunds.get(position).isNegativeValue() ? negativeColor : positiveColor);
         holder.date.setText(mRefunds.get(position).getDate());
 
     }

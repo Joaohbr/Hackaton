@@ -2,6 +2,7 @@
     <string name="app_name">Zup Timesheet/Refund</string>
 
     <string name="title_refund_report_activity">Relatório de despesas</string>
+    <string name="title_refund_entry_activity">Despesa</string>
 
     <string name="title_projects">Projetos</string>
     <string name="title_timesheet_approvals">Horas</string>
@@ -13,12 +14,30 @@
     <string name="description_refund_report_empty_view">Adicione despesas ao seu relatório</string>
 
     <string name="snackbar_generic_error">"Ops! Algo deu errado"</string>
-    <string name="snackbar_sent_message">"Enviado!"</string>
+    <string name="snackbar_approve_success_message">"Aprovado com sucesso!"</string>
+    <string name="snackbar_reprove_success_message">"Reprovado com sucesso!"</string>
+
+    <string name="snackbar_reproving_item">Reprovando...</string>
+    <string name="snackbar_approving_item">Aprovando...</string>
+
+    <string name="snackbar_removing_item">Removido</string>
+
+    <string name="toast_category_not_found">Categoria não encontrada</string>
 
     <string name="advance_money_hint">Adiantamento</string>
     <string name="configuration_subheader">Configurações</string>
 
+    <string name="refund_description_hint">Descrição</string>
+    <string name="refund_value_hint">Valor</string>
+    <string name="refund_date_hint">Data</string>
+
+    <string name="refund_category_hint">Categoria:</string>
+
     <string name="real_placeholder">R$0,00</string>
 
+    <string name="action_save">Salvar</string>
+    <string name="action_undo">Desfazer</string>
+
     <string name="api_base_url">https://rest.sandbox.netsuite.com/app/site/hosting/</string>
+
 </resources>
