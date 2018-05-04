@@ -18,8 +18,7 @@ import java.util.Calendar;
 
 import br.com.zup.hackatontimesheet.R;
 import br.com.zup.hackatontimesheet.refund_report.model.RefundEntry;
-import br.com.zup.hackatontimesheet.refund_report.ui.RefundListFragment;
-import br.com.zup.hackatontimesheet.utils.adapters.SimpleSpinnerAdapter;
+import br.com.zup.hackatontimesheet.commons.adapters.SimpleSpinnerAdapter;
 import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
 
 /**

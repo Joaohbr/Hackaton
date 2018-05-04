@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ import br.com.zup.hackatontimesheet.R;
 import br.com.zup.hackatontimesheet.refund_entry.ui.RefundEntryActivity;
 import br.com.zup.hackatontimesheet.refund_report.model.RefundEntry;
 import br.com.zup.hackatontimesheet.utils.generic_fragments.list_and_fab.ListAndFABFragment;
-import br.com.zup.hackatontimesheet.utils.listeners.OnItemClickListener;
+import br.com.zup.hackatontimesheet.commons.listeners.OnItemClickListener;
 import br.com.zup.multistatelayout.MultiStateLayout;
 
 import static com.google.common.base.Preconditions.checkNotNull;

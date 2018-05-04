@@ -10,7 +10,7 @@ import java.util.List;
 
 import br.com.zup.hackatontimesheet.R;
 import br.com.zup.hackatontimesheet.refund_report.model.RefundEntry;
-import br.com.zup.hackatontimesheet.utils.listeners.OnItemClickListener;
+import br.com.zup.hackatontimesheet.commons.listeners.OnItemClickListener;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
