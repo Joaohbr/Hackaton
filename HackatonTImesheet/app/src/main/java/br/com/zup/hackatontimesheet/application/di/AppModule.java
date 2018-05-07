@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
+import br.com.zup.hackatontimesheet.login.di.LoginComponent;
+import br.com.zup.hackatontimesheet.business_models.user.di.UserComponent;
 import dagger.Module;
 import dagger.Provides;
 
@@ -13,7 +15,7 @@ import dagger.Provides;
  * Created by joaoh on 09/04/2018.
  */
 
-@Module
+@Module(subcomponents = {UserComponent.class, LoginComponent.class})
 public class AppModule {
     String DATA_STORE = "app-shared-prefs";
 

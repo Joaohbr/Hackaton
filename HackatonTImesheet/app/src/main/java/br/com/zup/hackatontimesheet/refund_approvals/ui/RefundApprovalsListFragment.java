@@ -19,8 +19,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.zup.hackatontimesheet.R;
+import br.com.zup.hackatontimesheet.application.TimesheetApplication;
+import br.com.zup.hackatontimesheet.home.ui.HomeActivity;
 import br.com.zup.hackatontimesheet.home.ui.dialogs.SelectProjectDialog;
+import br.com.zup.hackatontimesheet.refund_approvals.di.RefundApprovalComponent;
 import br.com.zup.hackatontimesheet.refund_approvals.model.RefundApprovalEntry;
 import br.com.zup.hackatontimesheet.refund_report.ui.RefundReportActivity;
 import br.com.zup.hackatontimesheet.utils.generic_fragments.list_and_fab.ListAndFABFragment;
@@ -33,7 +38,9 @@ import br.com.zup.multistatelayout.MultiStateLayout;
 public class RefundApprovalsListFragment extends ListAndFABFragment
         implements RefundApprovalsContract.View, RefundApprovalsListRecyclerTouchHelper.RecyclerItemTouchHelperListener {
 
+    @Inject
     RefundApprovalsContract.Presenter mPresenter;
+
     RefundApprovalsAdapter mAdapter;
 
     public static RefundApprovalsListFragment newInstance() {
@@ -48,7 +55,12 @@ public class RefundApprovalsListFragment extends ListAndFABFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mPresenter = new RefundApprovalsPresenter(this);
+
+        ((HomeActivity)getActivity()).getmHomeComponent()
+                .getRefudApprovalBuilder()
+                .view(this)
+                .build()
+                .inject(this);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -143,6 +155,15 @@ public class RefundApprovalsListFragment extends ListAndFABFragment
     public void notifyFailRemoveItem() {
         Snackbar.make(mCoordinatorLayout,R.string.snackbar_generic_error,Snackbar.LENGTH_SHORT).show();
         mAdapter.restoreItem();
+    }
+
+    @Override
+    public void enableLoading(boolean enable) {
+        if(enable) {
+            mMultiStateLayout.setState(MultiStateLayout.State.LOADING);
+        } else {
+            mMultiStateLayout.setState(MultiStateLayout.State.CONTENT);
+        }
     }
 
     @Override

@@ -21,6 +21,12 @@ public interface RefundApprovalsContract {
         void notifyReprovedItem();
 
         void notifyFailRemoveItem();
+
+        void onError();
+
+        void enableLoading(boolean enable);
+
+        void enableTopProgressBarLoading(boolean enable);
     }
 
     interface Presenter {

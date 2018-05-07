@@ -38,6 +38,14 @@
     <string name="action_save">Salvar</string>
     <string name="action_undo">Desfazer</string>
 
+    <string name="log_out">Logout</string>
+
+    <string name="action_ok">Ok</string>
+    <string name="title_oops">Oops!</string>
+    <string name="label_something_went_wrong">Algo deu errado, tente novamente.</string>
+
     <string name="api_base_url">https://rest.sandbox.netsuite.com/app/site/hosting/</string>
+
+
 
 </resources>

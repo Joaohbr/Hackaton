@@ -1,4 +1,4 @@
-package br.com.zup.hackatontimesheet.application.di.scopes;
+package br.com.zup.hackatontimesheet.commons.scopes;
 
 import java.lang.annotation.Retention;
 
