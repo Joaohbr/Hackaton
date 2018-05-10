@@ -33,16 +33,20 @@
 
     <string name="refund_category_hint">Categoria:</string>
 
-    <string name="real_placeholder">R$0,00</string>
+    <string name="real_placeholder">R$0.00</string>
 
     <string name="action_save">Salvar</string>
     <string name="action_undo">Desfazer</string>
 
-    <string name="log_out">Logout</string>
+    <string name="action_log_out">SignOut</string>
+    <string name="action_send">Enviar</string>
 
     <string name="action_ok">Ok</string>
     <string name="title_oops">Oops!</string>
+    <string name="label_empty_report">Você não pode lançar um relatório sem despesas.</string>
     <string name="label_something_went_wrong">Algo deu errado, tente novamente.</string>
+    <string name="label_required_field">Campo obrigatório</string>
+
 
     <string name="api_base_url">https://rest.sandbox.netsuite.com/app/site/hosting/</string>
 

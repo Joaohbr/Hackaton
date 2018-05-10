@@ -7,16 +7,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
+import javax.inject.Inject;
+
 import br.com.zup.hackatontimesheet.R;
+import br.com.zup.hackatontimesheet.application.TimesheetApplication;
 import br.com.zup.hackatontimesheet.refund_report.model.RefundEntry;
 import br.com.zup.hackatontimesheet.commons.adapters.SimpleSpinnerAdapter;
 import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
@@ -29,9 +34,9 @@ public class RefundEntryActivity extends BaseActivity implements RefundEntryCont
 
     private static final String ENTRY = "entry";
     public static final String REFUND_ENTRY = "refund_entry";
-    public static final String IS_EDITION = "isEdition";
 
-    private RefundEntryContract.Presenter mPresenter;
+    @Inject
+    RefundEntryContract.Presenter mPresenter;
     private Calendar mCalendar;
 
     private SimpleSpinnerAdapter spinnerAdapter;
@@ -58,6 +63,15 @@ public class RefundEntryActivity extends BaseActivity implements RefundEntryCont
         description = findViewById(R.id.refund_description);
         value = findViewById(R.id.refund_value);
 
+
+        ((TimesheetApplication)getApplication())
+                .getUserComponent()
+                .getRefundEntryComponentBuilder()
+                .view(this)
+                .build()
+                .inject(this);
+
+
         mCalendar = Calendar.getInstance();
 
         saveButton.setOnClickListener(getSaveClickListener());
@@ -72,8 +86,6 @@ public class RefundEntryActivity extends BaseActivity implements RefundEntryCont
             }
         });
 
-        mPresenter = new RefundEntryPresenter(this);
-
         mPresenter.fetchData((RefundEntry)getIntent().getExtras().getParcelable(ENTRY));
     }
 
@@ -86,26 +98,25 @@ public class RefundEntryActivity extends BaseActivity implements RefundEntryCont
 
     @Override
     public void updateSelectedDate(String date) {
+        datePicker.setError(null);
         datePicker.setText(date);
     }
 
     @Override
-    public void finish(RefundEntry entry, boolean isEdition) {
+    public void finish(RefundEntry entry) {
         Intent result = new Intent();
         result.putExtra(REFUND_ENTRY, entry);
-        result.putExtra(IS_EDITION,isEdition);
         setResult(Activity.RESULT_OK,result);
         finish();
     }
 
     @Override
     public void showSelectedEntry(RefundEntry entry) {
-        int categoryPosition = spinnerAdapter.getPosition(entry.getCategory());
 
-        if(categoryPosition < 0) {
+        if(spinnerAdapter.getItem(entry.getCategoryPosition()) == null) {
             Toast.makeText(this,R.string.toast_category_not_found,Toast.LENGTH_SHORT);
         } else {
-            categorySpinner.setSelection(categoryPosition);
+            categorySpinner.setSelection(entry.getCategoryPosition());
         }
         datePicker.setText(entry.getDate());
         description.setText(entry.getDescription());
@@ -131,14 +142,38 @@ public class RefundEntryActivity extends BaseActivity implements RefundEntryCont
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onSaveReport(getInputedEntry());
+                if(validateFields())
+                    mPresenter.onSaveReport(getInputedEntry());
             }
         };
     }
 
+    private boolean validateFields() {
+        boolean areFieldsValid = true;
+
+        if(categorySpinner.getSelectedItemPosition() == 0) {
+            ((TextView)categorySpinner.getSelectedView()).setError(getString(R.string.label_required_field));
+            areFieldsValid = false;
+        }
+        if(datePicker.getText().toString() == null || datePicker.getText().toString().isEmpty()) {
+            datePicker.setError(getString(R.string.label_required_field));
+            areFieldsValid = false;
+        }
+        if(description.getText().toString() == null || description.getText().toString().isEmpty()) {
+            description.setError(getString(R.string.label_required_field));
+            areFieldsValid = false;
+        }
+        if(value.getText().toString() == null || value.getText().toString().isEmpty()) {
+            value.setError(getString(R.string.label_required_field));
+            areFieldsValid = false;
+        }
+
+        return areFieldsValid;
+    }
+
     private RefundEntry getInputedEntry() {
         RefundEntry entry = new RefundEntry();
-        entry.setCategory(spinnerAdapter.getItem(categorySpinner.getSelectedItemPosition()));
+        entry.setCategoryPosition(categorySpinner.getSelectedItemPosition()-1);
         entry.setDate(datePicker.getText().toString());
         entry.setDescription(description.getText().toString());
         entry.setValue(value.getText().toString());

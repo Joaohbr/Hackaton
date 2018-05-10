@@ -1,6 +1,7 @@
 package br.com.zup.hackatontimesheet.business_models.user;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by joaoh on 07/05/2018.
@@ -8,12 +9,16 @@ import com.google.gson.annotations.Expose;
 
 public class Project {
 
+    @SerializedName("id")
     @Expose
     String id;
+    @SerializedName("name")
     @Expose
     String name;
+    @SerializedName("businessUnitId")
     @Expose
     String businessUnitId;
+    @SerializedName("managerId")
     @Expose
     String managerId;
 

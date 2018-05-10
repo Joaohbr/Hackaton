@@ -1,5 +1,7 @@
 package br.com.zup.hackatontimesheet.refund_approvals.ui;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,13 +41,13 @@ public class RefundApprovalsPresenter implements RefundApprovalsContract.Present
     }
 
     @Override
-    public void onAddTimesheet() {
+    public void onAddRefundReport() {
         mView.showProjectDialog(mEmployee.getProjectNameList());
     }
 
     @Override
     public void onProjectSelected(int index) {
-        mView.openRefundReport();
+        mView.openRefundReport(index);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class RefundApprovalsPresenter implements RefundApprovalsContract.Present
 
     @Override
     public void onItemApproved(final int position) {
-        int reportId = Integer.parseInt(mList.get(0).getReportId());
+        int reportId = Integer.parseInt(mList.get(position).getReportId());
         mView.enableTopProgressBarLoading(true);
         mRepository.putRefundReportStatus(new RefundReportStatusRequest(reportId, "approve"),
                 new ExpensesRepository.RefundReportStatusCallback() {
@@ -92,9 +94,9 @@ public class RefundApprovalsPresenter implements RefundApprovalsContract.Present
 
     @Override
     public void onItemReproved(final int position) {
-        int reportId = Integer.parseInt(mList.get(0).getReportId());
+        int reportId = Integer.parseInt(mList.get(position).getReportId());
         mView.enableTopProgressBarLoading(true);
-        mRepository.putRefundReportStatus(new RefundReportStatusRequest(reportId, "approve"),
+        mRepository.putRefundReportStatus(new RefundReportStatusRequest(reportId, "reject"),
                 new ExpensesRepository.RefundReportStatusCallback() {
                     @Override
                     public void onSuccess(List<RefundReportStatusResponse> response) {
@@ -127,9 +129,12 @@ public class RefundApprovalsPresenter implements RefundApprovalsContract.Present
             }
 
             Double amount = Double.parseDouble(report.getAmount());
+            Double total = amount.doubleValue() - report.getAdvance().doubleValue();
 
-
-            convertedList.add(new RefundApprovalEntry(report.getEmployeeName(), report.getAmount(), date,true));
+            convertedList.add(new RefundApprovalEntry(report.getEmployeeName(),
+                    "R$" + String.format("%.2f", total.doubleValue()),
+                    date,
+                    total.doubleValue() < 0 ? true : false));
         }
 
         return convertedList;

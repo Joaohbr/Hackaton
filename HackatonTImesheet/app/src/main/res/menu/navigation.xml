@@ -3,13 +3,15 @@
 
 
     <item
-        android:id="@+id/navigation_timesheet_approvals"
-        android:icon="@drawable/ic_alarm_on_black_24dp"
-        android:title="@string/title_timesheet_approvals" />
-
-    <item
         android:id="@+id/navigation_refund_approvals"
         android:icon="@drawable/ic_receipt_black_24dp"
         android:title="@string/title_refund_approvals" />
+
+    <item
+        android:id="@+id/navigation_timesheet_approvals"
+        android:icon="@drawable/ic_alarm_on_black_24dp"
+        android:title="@string/title_timesheet_approvals"
+        android:enabled="false"/>
+
 
 </menu>

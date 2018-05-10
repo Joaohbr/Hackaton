@@ -43,6 +43,9 @@ public class RefundApprovalsListRecyclerTouchHelper extends ItemTouchHelper.Simp
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
+        View itemView = viewHolder.itemView;
+        int itemHeight = itemView.getBottom() - itemView.getTop();
+
         getDefaultUIUtil().onDraw(c, recyclerView, ((RefundApprovalsAdapter.ViewHolder)viewHolder).foreground, dX, dY,
                 actionState, isCurrentlyActive);
     }

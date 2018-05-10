@@ -14,7 +14,7 @@ public interface RefundEntryContract {
 
         void updateSelectedDate(String date);
 
-        void finish(RefundEntry entry, boolean isEdition);
+        void finish(RefundEntry entry);
 
         void showSelectedEntry(RefundEntry entry);
     }

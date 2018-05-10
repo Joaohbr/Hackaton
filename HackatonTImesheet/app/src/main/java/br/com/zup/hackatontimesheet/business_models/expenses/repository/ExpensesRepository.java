@@ -3,6 +3,8 @@ package br.com.zup.hackatontimesheet.business_models.expenses.repository;
 import java.util.List;
 
 import br.com.zup.hackatontimesheet.business_models.expenses.ApprovableRefundReport;
+import br.com.zup.hackatontimesheet.business_models.expenses.RefundReport;
+import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportResponse;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportStatusRequest;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportStatusResponse;
 import br.com.zup.hackatontimesheet.commons.interfaces.Callback;
@@ -17,4 +19,7 @@ public interface ExpensesRepository {
 
     void putRefundReportStatus(RefundReportStatusRequest request, RefundReportStatusCallback callback);
     interface RefundReportStatusCallback extends Callback<List<RefundReportStatusResponse>>{}
+
+    void postRefundReport(RefundReport request, RefundReportCallback callback);
+    interface RefundReportCallback extends Callback<RefundReportResponse>{}
 }

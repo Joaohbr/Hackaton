@@ -1,12 +1,27 @@
 package br.com.zup.hackatontimesheet.refund_report.ui;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import br.com.zup.hackatontimesheet.R;
+import br.com.zup.hackatontimesheet.application.TimesheetApplication;
 import br.com.zup.hackatontimesheet.commons.adapters.SimpleSpinnerAdapter;
+import br.com.zup.hackatontimesheet.refund_report.di.RefundReportComponent;
 import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
 
 /**
@@ -15,23 +30,60 @@ import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
 
 public class RefundReportActivity extends BaseActivity implements RefundReportContract.View {
 
+    private static final String PROJECT_INDEX = "projectIndex";
+
     private Spinner currencySpinner;
     private TextView totalTextView;
-    private RefundReportContract.Presenter mPresenter;
+    private TextInputEditText advance;
+
+    @Inject
+    RefundReportContract.Presenter mPresenter;
+
+    public static Intent newIntent(Context context, int selectedProjectIndex) {
+        Intent intent = new Intent(context, RefundReportActivity.class);
+        intent.putExtra(PROJECT_INDEX, selectedProjectIndex);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refund_report);
 
+        int selectedProjectIndex = getIntent().getExtras().getInt(PROJECT_INDEX, 0);
+
         RefundReportContract.ChildView childView = (RefundReportContract.ChildView)getSupportFragmentManager().findFragmentById(R.id.refund_list_fragment);
 
-        mPresenter = new RefundReportPresenter(this, childView);
+        RefundReportComponent mComponent = ((TimesheetApplication)getApplication())
+                .getUserComponent()
+                .getRefundReportComponentBuilder()
+                .childView(childView)
+                .projectIndex(selectedProjectIndex)
+                .view(this)
+                .build();
+
+        mComponent.inject(this);
+        mComponent.inject((RefundListFragment)childView);
 
         childView.bindPresenter(mPresenter);
 
         currencySpinner = findViewById(R.id.currency_spinner);
         totalTextView = findViewById(R.id.total);
+        advance = findViewById(R.id.advance_edit_text);
+
+        advance.addTextChangedListener(getTextChangedListener());
+
+        currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.onCurrencySelected(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mPresenter.fetchData();
     }
@@ -41,5 +93,77 @@ public class RefundReportActivity extends BaseActivity implements RefundReportCo
         SimpleSpinnerAdapter adapter = new SimpleSpinnerAdapter(this, currencies);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currencySpinner.setAdapter(adapter);
+    }
+
+    @Override
+    public void updateTotalValue(String total, boolean isNegative) {
+        totalTextView.setTextColor(isNegative ?
+                getResources().getColor(R.color.colorRed) : getResources().getColor(R.color.colorPrimaryLegacy));
+        totalTextView.setText(total);
+
+    }
+
+    @Override
+    public void showEmptyError() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setNegativeButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        builder.setTitle(R.string.title_oops);
+        builder.setMessage(R.string.label_empty_report);
+        // Create the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.refund_report_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_send) {
+            if(validateFields())
+                mPresenter.onSendRefundReport();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private TextWatcher getTextChangedListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //do nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mPresenter.onAdvanceValueChanged(s.toString());
+            }
+        };
+    }
+
+    private boolean validateFields() {
+        boolean areFieldsValid = true;
+
+        if(currencySpinner.getSelectedItemPosition() == 0) {
+            ((TextView)currencySpinner.getSelectedView()).setError(getString(R.string.label_required_field));
+            areFieldsValid = false;
+        }
+        if(advance.getText().toString() == null || advance.getText().toString().isEmpty()) {
+            advance.setError(getString(R.string.label_required_field));
+            areFieldsValid = false;
+        }
+        return areFieldsValid;
     }
 }

@@ -17,7 +17,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import br.com.zup.hackatontimesheet.R;
 import br.com.zup.hackatontimesheet.refund_entry.ui.RefundEntryActivity;
@@ -36,7 +39,8 @@ public class RefundListFragment extends ListAndFABFragment
 
     private static final int OPEN_ENTRY = 100;
 
-    private RefundReportContract.Presenter mPresenter;
+    @Inject
+    RefundReportContract.Presenter mPresenter;
     private RefundListAdapter mAdapter;
 
     @Override
@@ -47,7 +51,6 @@ public class RefundListFragment extends ListAndFABFragment
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
         mRecyclerView.setLayoutManager(mLayoutManager);
 
     }
@@ -56,16 +59,9 @@ public class RefundListFragment extends ListAndFABFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == OPEN_ENTRY && resultCode == Activity.RESULT_OK) {
-            boolean isEdition = data.getBooleanExtra(RefundEntryActivity.IS_EDITION, false);
-
             if(data.hasExtra(RefundEntryActivity.REFUND_ENTRY)) {
                 RefundEntry entry = data.getParcelableExtra(RefundEntryActivity.REFUND_ENTRY);
-                if(isEdition) {
-                    mAdapter.updateItem(entry,0);
-                } else {
-                    mAdapter.addItem(entry);
-                }
-                mMultiStateLayout.setState(MultiStateLayout.State.CONTENT);
+                mPresenter.onNewRefundEntry(entry);
             }
         }
     }
@@ -120,13 +116,46 @@ public class RefundListFragment extends ListAndFABFragment
     }
 
     @Override
+    public void updateRefundEntries(RefundEntry entry, int position) {
+        mAdapter.updateItem(entry,position);
+        mPresenter.onRefundEntryChanged(mAdapter.getTotalSum());
+        mMultiStateLayout.setState(MultiStateLayout.State.CONTENT);
+    }
+
+    @Override
+    public void addRefundEntry(RefundEntry entry) {
+        mAdapter.addItem(entry);
+        mPresenter.onRefundEntryChanged(mAdapter.getTotalSum());
+        mMultiStateLayout.setState(MultiStateLayout.State.CONTENT);
+    }
+
+    @Override
+    public void enableLoading(boolean enable) {
+        mMultiStateLayout.setState(enable ? MultiStateLayout.State.LOADING : MultiStateLayout.State.CONTENT, true);
+    }
+
+    @Override
+    public void cleanAdapter() {
+        mAdapter.setList(new ArrayList<RefundEntry>());
+        mPresenter.onRefundEntryChanged(mAdapter.getTotalSum());
+        mMultiStateLayout.setState(MultiStateLayout.State.EMPTY);
+    }
+
+    @Override
+    public List<RefundEntry> getEntries() {
+        return mAdapter.getList();
+    }
+
+    @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         mAdapter.removeItem(viewHolder.getAdapterPosition());
+        mPresenter.onRefundEntryChanged(mAdapter.getTotalSum());
         Snackbar snackbar = Snackbar.make(mCoordinatorLayout, getString(R.string.snackbar_removing_item), Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.action_undo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAdapter.restoreItem();
+                mPresenter.onRefundEntryChanged(mAdapter.getTotalSum());
             }
         });
         snackbar.show();

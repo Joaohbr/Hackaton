@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.zup.hackatontimesheet.business_models.expenses.ApprovableRefundReport;
+import br.com.zup.hackatontimesheet.business_models.expenses.RefundReport;
+import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportResponse;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportStatusRequest;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportStatusResponse;
 import br.com.zup.hackatontimesheet.commons.scopes.FragmentScope;
@@ -18,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by joaoh on 07/05/2018.
  */
 
-@FragmentScope
 public class ExpensesRepositoryImpl implements ExpensesRepository {
 
     private ExpensesApi mService;
@@ -61,6 +62,25 @@ public class ExpensesRepositoryImpl implements ExpensesRepository {
 
             @Override
             public void onFailure(Call<List<RefundReportStatusResponse>> call, Throwable t) {
+                callback.onError();
+            }
+        });
+    }
+
+    @Override
+    public void postRefundReport(RefundReport request, final RefundReportCallback callback) {
+        mService.postRefundReport(request).enqueue(new Callback<RefundReportResponse>() {
+            @Override
+            public void onResponse(Call<RefundReportResponse> call, Response<RefundReportResponse> response) {
+                if(response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefundReportResponse> call, Throwable t) {
                 callback.onError();
             }
         });

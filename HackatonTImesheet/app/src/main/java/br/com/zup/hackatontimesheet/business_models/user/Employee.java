@@ -1,6 +1,7 @@
 package br.com.zup.hackatontimesheet.business_models.user;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +12,25 @@ import java.util.List;
 
 public class Employee {
 
+    @SerializedName("id")
     @Expose
     String id;
+    @SerializedName("name")
     @Expose
     String name;
+    @SerializedName("locationId")
     @Expose
     String locationId;
+    @SerializedName("expenseApprover")
     @Expose
     String expenseApprover;
+    @SerializedName("timeApprover")
     @Expose
     String timeApprover;
+    @SerializedName("classificationId")
     @Expose
     String classificationId;
+    @SerializedName("projects")
     @Expose
     List<Project> projects;
 

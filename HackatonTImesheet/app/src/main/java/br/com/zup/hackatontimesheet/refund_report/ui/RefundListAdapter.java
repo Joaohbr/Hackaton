@@ -25,6 +25,15 @@ public class RefundListAdapter extends RecyclerView.Adapter<RefundListAdapter.Vi
     private RefundEntry lastRemovedItem;
     private int lastRemovedItemPosition;
 
+    public List<RefundEntry> getList() {
+        return mList;
+    }
+
+    public void setList(List<RefundEntry> mList) {
+        this.mList = mList;
+        notifyDataSetChanged();
+    }
+
     public RefundListAdapter(List<RefundEntry> list, OnItemClickListener listener) {
         mList = checkNotNull(list);
         mListener = checkNotNull(listener);
@@ -81,8 +90,18 @@ public class RefundListAdapter extends RecyclerView.Adapter<RefundListAdapter.Vi
     }
 
     public void updateItem(RefundEntry item, int position) {
-        mList.add(position, item);
+        mList.set(position, item);
         notifyItemChanged(position);
+    }
+
+    public double getTotalSum() {
+        double result = 0.0f;
+
+        for(RefundEntry entry : mList) {
+            result += Double.parseDouble(entry.getValue());
+        }
+
+        return result;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

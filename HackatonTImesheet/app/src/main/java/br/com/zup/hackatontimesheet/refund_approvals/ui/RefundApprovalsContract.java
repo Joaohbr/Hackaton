@@ -12,7 +12,7 @@ public interface RefundApprovalsContract {
     interface View {
         void showProjectDialog(String [] projects);
 
-        void openRefundReport();
+        void openRefundReport(int selectedProject);
 
         void showApprovals(List<RefundApprovalEntry> approvals);
 
@@ -30,7 +30,7 @@ public interface RefundApprovalsContract {
     }
 
     interface Presenter {
-        void onAddTimesheet();
+        void onAddRefundReport();
 
         void onProjectSelected(int index);
 

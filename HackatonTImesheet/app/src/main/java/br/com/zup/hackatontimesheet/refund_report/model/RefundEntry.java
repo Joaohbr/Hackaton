@@ -15,10 +15,11 @@ public class RefundEntry implements Parcelable {
 
     private String description;
     private String value;
-    private String category;
+    private int categoryPosition;
     private String date;
 
-    public RefundEntry(){}
+    public RefundEntry() {
+    }
 
     public RefundEntry(String description, String value, String date) {
         this.description = checkNotNull(description);
@@ -42,12 +43,12 @@ public class RefundEntry implements Parcelable {
         this.value = value;
     }
 
-    public String getCategory() {
-        return category;
+    public int getCategoryPosition() {
+        return categoryPosition;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryPosition(int categoryPosition) {
+        this.categoryPosition = categoryPosition;
     }
 
     public String getDate() {
@@ -58,12 +59,10 @@ public class RefundEntry implements Parcelable {
         this.date = date;
     }
 
-
-    //Parcelable implementation
     protected RefundEntry(Parcel in) {
         description = in.readString();
         value = in.readString();
-        category = in.readString();
+        categoryPosition = in.readInt();
         date = in.readString();
     }
 
@@ -76,7 +75,7 @@ public class RefundEntry implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(description);
         dest.writeString(value);
-        dest.writeString(category);
+        dest.writeInt(categoryPosition);
         dest.writeString(date);
     }
 
@@ -92,5 +91,4 @@ public class RefundEntry implements Parcelable {
             return new RefundEntry[size];
         }
     };
-
 }

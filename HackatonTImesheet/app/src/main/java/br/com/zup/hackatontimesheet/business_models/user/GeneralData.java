@@ -3,6 +3,7 @@ package br.com.zup.hackatontimesheet.business_models.user;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,32 @@ public class GeneralData {
     @SerializedName("expenseCategories")
     @Expose
     List<Category> expenseCategories;
+
+    public String[] getCurrenciesNameList() {
+        if(currencies == null) {
+            return new String[0];
+        }
+        List<String> result = new ArrayList<>();
+        result.add("Moeda...");
+        for(Currency c : currencies) {
+            result.add(c.getName());
+        }
+
+        return result.toArray(new String[currencies.size()+1]);
+    }
+
+    public String[] getExpenseCategoriesList() {
+        if(expenseCategories == null) {
+            return new String[0];
+        }
+        List<String> result = new ArrayList<>();
+        result.add("Categoria...");
+        for(Category c : expenseCategories) {
+            result.add(c.getName());
+        }
+
+        return result.toArray(new String[expenseCategories.size()+1]);
+    }
 
     public List<Currency> getCurrencies() {
         return currencies;

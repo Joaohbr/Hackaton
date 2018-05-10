@@ -50,7 +50,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
         mNavigation = findViewById(R.id.navigation);
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        mNavigation.setSelectedItemId(R.id.navigation_timesheet_approvals);
+        mNavigation.setSelectedItemId(R.id.navigation_refund_approvals);
 
         mHomeComponent = ((TimesheetApplication)getApplication())
                 .getUserComponent()

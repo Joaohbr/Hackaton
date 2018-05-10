@@ -97,7 +97,7 @@ public class RefundApprovalsListFragment extends ListAndFABFragment
         return new FloatingActionButton.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onAddTimesheet();
+                mPresenter.onAddRefundReport();
             }
         };
     }
@@ -113,12 +113,16 @@ public class RefundApprovalsListFragment extends ListAndFABFragment
     }
 
     @Override
-    public void openRefundReport() {
-        startActivity(new Intent(getActivity(), RefundReportActivity.class));
+    public void openRefundReport(int selectedProject) {
+        startActivity(RefundReportActivity.newIntent(getActivity(), selectedProject));
     }
 
     @Override
     public void showApprovals(List<RefundApprovalEntry> approvals) {
+
+        if(!isAdded())
+            return;
+
         mAdapter = new RefundApprovalsAdapter(approvals,
                 getResources().getColor(R.color.colorPrimary)
                 , getResources().getColor(R.color.colorRed));
@@ -170,7 +174,7 @@ public class RefundApprovalsListFragment extends ListAndFABFragment
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
 
         mAdapter.removeItem(viewHolder.getAdapterPosition());
-        Snackbar  snackbar = Snackbar.make(mCoordinatorLayout, getSnackbarText(direction), Snackbar.LENGTH_LONG);
+        Snackbar  snackbar = Snackbar.make(mCoordinatorLayout, getSnackbarText(direction), Snackbar.LENGTH_SHORT);
         snackbar.setAction(R.string.action_undo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {

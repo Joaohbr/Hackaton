@@ -3,6 +3,8 @@ package br.com.zup.hackatontimesheet.business_models.expenses.repository;
 import java.util.List;
 
 import br.com.zup.hackatontimesheet.business_models.expenses.ApprovableRefundReport;
+import br.com.zup.hackatontimesheet.business_models.expenses.RefundReport;
+import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportResponse;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportStatusRequest;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportStatusResponse;
 import retrofit2.Call;
@@ -23,4 +25,7 @@ public interface ExpensesApi {
 
     @PUT("restlet.nl?script=339&deploy=1")
     Call<List<RefundReportStatusResponse>> putRefundReportStatus(@Body RefundReportStatusRequest reportStatusRequest);
+
+    @POST("restlet.nl?script=335&deploy=1")
+    Call<RefundReportResponse> postRefundReport(@Body RefundReport refundReport);
 }
