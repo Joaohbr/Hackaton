@@ -65,4 +65,58 @@
         android:layout_height="wrap_content">
     </Spinner>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_small_margin"
+        android:gravity="center"
+        android:text="@string/title_receipt"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="@dimen/activity_vertical_small_margin"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:id="@+id/iv_receipt"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/receipt_image_size"
+            android:layout_height="@dimen/receipt_image_size"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_baseline_photo_24px"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/activity_vertical_small_margin"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/iv_receipt">
+
+            <ImageView
+                android:id="@+id/iv_take_picture"
+                android:layout_width="@dimen/picture_button_size"
+                android:layout_height="@dimen/picture_button_size"
+                android:tint="@color/colorGray"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:clickable="true"
+                android:src="@drawable/ic_baseline_photo_camera_24dp"/>
+
+            <ImageView
+                android:id="@+id/iv_open_gallery"
+                android:layout_toRightOf="@id/iv_take_picture"
+                android:tint="@color/colorGray"
+                android:layout_width="@dimen/picture_button_size"
+                android:layout_height="@dimen/picture_button_size"
+                android:clickable="true"
+                android:src="@drawable/ic_baseline_image_search_24dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

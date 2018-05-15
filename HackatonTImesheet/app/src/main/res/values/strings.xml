@@ -8,6 +8,7 @@
     <string name="title_timesheet_approvals">Horas</string>
     <string name="title_refund_approvals">Reembolsos</string>
     <string name="title_project_dialog">Selecione seu projeto</string>
+    <string name="title_receipt">Comprovante</string>
 
     <string name="description_time_empty_view">Lançe suas horas</string>
     <string name="description_refund_empty_view">Crie um relatório de despesas</string>
@@ -42,9 +43,16 @@
     <string name="action_send">Enviar</string>
 
     <string name="action_ok">Ok</string>
+    <string name="action_ack">Entendi</string>
     <string name="title_oops">Oops!</string>
+    <string name="title_success">Sucesso</string>
+    <string name="title_not_logged">Você foi deslogado(a)</string>
+    <string name="label_refund_report_success">Seu relatório foi submetido com sucesso.</string>
+    <string name="label_login_required">Iremos te redirecionar para o login.</string>
     <string name="label_empty_report">Você não pode lançar um relatório sem despesas.</string>
     <string name="label_something_went_wrong">Algo deu errado, tente novamente.</string>
+    <string name="label_picture_problem">A foto selecionada não foi encontrada!</string>
+    <string name="label_picture_required">Selecione uma foto do seu comprovante!</string>
     <string name="label_required_field">Campo obrigatório</string>
 
 

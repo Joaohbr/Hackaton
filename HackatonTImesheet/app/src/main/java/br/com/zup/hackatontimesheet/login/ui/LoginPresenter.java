@@ -19,7 +19,7 @@ import static com.google.android.gms.common.internal.zzbq.checkNotNull;
 @ActivityScope
 public class LoginPresenter implements LoginContract.Presenter {
 
-    //private final String defaultEmail = "rafael.ziggiatti@zup.com.br";
+    private final String defaultEmail = "rafael.ziggiatti@zup.com.br";
     private UserManager mUserManager;
     private LoginContract.View mView;
     private EmployeeRepository mRepository;
@@ -33,7 +33,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void signIn(GoogleSignInAccount account) {
-        mRepository.getEmployee(account.getEmail(), new EmployeeRepository.getEmployeeCallback() {
+        mRepository.getEmployee(defaultEmail, new EmployeeRepository.getEmployeeCallback() {
             @Override
             public void onSuccess(Employee response) {
                 loadApplicationData(response);

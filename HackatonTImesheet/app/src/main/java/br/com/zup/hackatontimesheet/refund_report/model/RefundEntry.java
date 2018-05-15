@@ -13,18 +13,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RefundEntry implements Parcelable {
 
+
     private String description;
     private String value;
     private int categoryPosition;
     private String date;
+    private String imageBase64;
 
     public RefundEntry() {
     }
 
-    public RefundEntry(String description, String value, String date) {
+    public RefundEntry(String description, String value, String date, String imageBase64) {
         this.description = checkNotNull(description);
         this.value = checkNotNull(value);
         this.date = checkNotNull(date);
+        this.imageBase64 = checkNotNull(imageBase64);
     }
 
     public String getDescription() {
@@ -37,6 +40,14 @@ public class RefundEntry implements Parcelable {
 
     public String getValue() {
         return value;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public void setValue(String value) {
@@ -64,6 +75,7 @@ public class RefundEntry implements Parcelable {
         value = in.readString();
         categoryPosition = in.readInt();
         date = in.readString();
+        imageBase64 = in.readString();
     }
 
     @Override
@@ -77,6 +89,7 @@ public class RefundEntry implements Parcelable {
         dest.writeString(value);
         dest.writeInt(categoryPosition);
         dest.writeString(date);
+        dest.writeString(imageBase64);
     }
 
     @SuppressWarnings("unused")

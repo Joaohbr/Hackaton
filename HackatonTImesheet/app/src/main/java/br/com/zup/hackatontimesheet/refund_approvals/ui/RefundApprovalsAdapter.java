@@ -71,7 +71,7 @@ public class RefundApprovalsAdapter extends RecyclerView.Adapter<RefundApprovals
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, value, date;
-        ViewGroup foreground, background, positiveThumb, negativeThumb;
+        ViewGroup foreground, positiveThumb, negativeThumb;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -81,10 +81,9 @@ public class RefundApprovalsAdapter extends RecyclerView.Adapter<RefundApprovals
             date = itemView.findViewById(R.id.refund_date);
 
             foreground = itemView.findViewById(R.id.refund_foreground_view);
-            background = itemView.findViewById(R.id.refund_background_view);
 
-            positiveThumb = itemView.findViewById(R.id.positive_thumb);
-            negativeThumb = itemView.findViewById(R.id.negative_thumb);
+            positiveThumb = itemView.findViewById(R.id.refund_background_thumb_up);
+            negativeThumb = itemView.findViewById(R.id.refund_background_thumb_down);
 
         }
     }

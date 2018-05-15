@@ -34,6 +34,8 @@ public interface RefundReportContract {
 
         void enableLoading(boolean enable);
 
+        void showSuccessDialog();
+
         List<RefundEntry> getEntries();
     }
 

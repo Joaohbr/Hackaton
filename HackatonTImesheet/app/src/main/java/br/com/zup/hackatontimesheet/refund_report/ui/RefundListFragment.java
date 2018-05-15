@@ -1,6 +1,8 @@
 package br.com.zup.hackatontimesheet.refund_report.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -132,6 +134,21 @@ public class RefundListFragment extends ListAndFABFragment
     @Override
     public void enableLoading(boolean enable) {
         mMultiStateLayout.setState(enable ? MultiStateLayout.State.LOADING : MultiStateLayout.State.CONTENT, true);
+    }
+
+    @Override
+    public void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setNegativeButton(R.string.action_ack, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        builder.setTitle(R.string.title_success);
+        builder.setMessage(R.string.label_refund_report_success);
+        // Create the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

@@ -38,12 +38,15 @@ public class ReportExpense {
     @SerializedName("costCenterId")
     @Expose
     String costCenterId;
+    @SerializedName("file")
+    ExpenseImage image;
+
 
     public ReportExpense() {
 
     }
 
-    public ReportExpense(Double amount, Integer businessUnitId, Integer categoryId, Integer currencyId, Integer customerProjectId, String date, Integer locationId, String memo, String costCenterId) {
+    public ReportExpense(Double amount, Integer businessUnitId, Integer categoryId, Integer currencyId, Integer customerProjectId, String date, Integer locationId, String memo, String costCenterId, ExpenseImage image) {
         this.amount = checkNotNull(amount);
         this.businessUnitId = checkNotNull(businessUnitId);
         this.categoryId = checkNotNull(categoryId);
@@ -53,6 +56,7 @@ public class ReportExpense {
         this.locationId = checkNotNull(locationId);
         this.memo = checkNotNull(memo);
         this.costCenterId = checkNotNull(costCenterId);
+        this.image = checkNotNull(image);
     }
 
     public Double getAmount() {
@@ -101,6 +105,22 @@ public class ReportExpense {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public ExpenseImage getImage() {
+        return image;
+    }
+
+    public void setImage(ExpenseImage image) {
+        this.image = image;
+    }
+
+    public String getCostCenterId() {
+        return costCenterId;
+    }
+
+    public void setCostCenterId(String costCenterId) {
+        this.costCenterId = costCenterId;
     }
 
     public Integer getLocationId() {

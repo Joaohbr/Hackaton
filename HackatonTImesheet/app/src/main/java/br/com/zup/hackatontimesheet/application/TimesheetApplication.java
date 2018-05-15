@@ -32,6 +32,10 @@ public class TimesheetApplication extends Application {
 
     }
 
+    public boolean isLogged() {
+        return userManager.isLogged();
+    }
+
     public AppComponent getAppComponent() {
         return mAppComponent;
     }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import br.com.zup.hackatontimesheet.business_models.expenses.ExpenseImage;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReport;
 import br.com.zup.hackatontimesheet.business_models.expenses.RefundReportResponse;
 import br.com.zup.hackatontimesheet.business_models.expenses.ReportExpense;
@@ -107,6 +108,7 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
                     isLoading = false;
                     mChildView.enableLoading(false);
                     mChildView.cleanAdapter();
+                    mChildView.showSuccessDialog();
                 }
 
                 @Override
@@ -162,7 +164,7 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
 
     private List<ReportExpense> convertToReportExpenses(List<RefundEntry> entries) {
         List<ReportExpense> result = new ArrayList<>();
-
+        int i = 0;
         for(RefundEntry entry : entries) {
             result.add(new ReportExpense(
                     Double.parseDouble(entry.getValue()),
@@ -173,7 +175,8 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
                     entry.getDate(),
                     Integer.parseInt(mEmployee.getLocationId()),
                     entry.getDescription(),
-                    mEmployee.getClassificationId())
+                    mEmployee.getClassificationId(),
+                    new ExpenseImage("receipt"+i++, entry.getImageBase64()))
             );
         }
 

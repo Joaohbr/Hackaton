@@ -1,6 +1,8 @@
 package br.com.zup.hackatontimesheet.refund_approvals.ui;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -11,6 +13,10 @@ import android.view.View;
 
 public class RefundApprovalsListRecyclerTouchHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
+
+    private ColorDrawable backgoundThumbUp = new ColorDrawable(), backgoundThumbDown = new ColorDrawable();
+
+
 
     public RefundApprovalsListRecyclerTouchHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
@@ -43,9 +49,13 @@ public class RefundApprovalsListRecyclerTouchHelper extends ItemTouchHelper.Simp
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        View itemView = viewHolder.itemView;
-        int itemHeight = itemView.getBottom() - itemView.getTop();
-
+        if( dX < 0) {
+            ((RefundApprovalsAdapter.ViewHolder) viewHolder).negativeThumb.setVisibility(View.VISIBLE);
+            ((RefundApprovalsAdapter.ViewHolder) viewHolder).positiveThumb.setVisibility(View.GONE);
+        } else {
+            ((RefundApprovalsAdapter.ViewHolder) viewHolder).positiveThumb.setVisibility(View.VISIBLE);
+            ((RefundApprovalsAdapter.ViewHolder) viewHolder).negativeThumb.setVisibility(View.GONE);
+        }
         getDefaultUIUtil().onDraw(c, recyclerView, ((RefundApprovalsAdapter.ViewHolder)viewHolder).foreground, dX, dY,
                 actionState, isCurrentlyActive);
     }
@@ -53,6 +63,11 @@ public class RefundApprovalsListRecyclerTouchHelper extends ItemTouchHelper.Simp
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+    }
+
+    @Override
+    public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        return super.getSwipeDirs(recyclerView, viewHolder);
     }
 
     @Override

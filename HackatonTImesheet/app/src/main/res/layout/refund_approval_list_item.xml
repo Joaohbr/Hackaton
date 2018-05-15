@@ -5,8 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include layout="@layout/background_approval_layout"
-        android:id="@+id/refund_background_view" />
+    <include layout="@layout/background_thumb_down"
+        android:id="@+id/refund_background_thumb_down" />
+
+    <include layout="@layout/background_thumb_up"
+        android:id="@+id/refund_background_thumb_up" />
 
     <include layout="@layout/foreground_approval_layout"
         android:id="@+id/refund_foreground_view"/>

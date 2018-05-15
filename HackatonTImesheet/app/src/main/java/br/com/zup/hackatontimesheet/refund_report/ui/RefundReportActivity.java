@@ -23,12 +23,13 @@ import br.com.zup.hackatontimesheet.application.TimesheetApplication;
 import br.com.zup.hackatontimesheet.commons.adapters.SimpleSpinnerAdapter;
 import br.com.zup.hackatontimesheet.refund_report.di.RefundReportComponent;
 import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
+import br.com.zup.hackatontimesheet.utils.generic_activities.LoggedActivity;
 
 /**
  * Created by joaoh on 13/04/2018.
  */
 
-public class RefundReportActivity extends BaseActivity implements RefundReportContract.View {
+public class RefundReportActivity extends LoggedActivity implements RefundReportContract.View {
 
     private static final String PROJECT_INDEX = "projectIndex";
 
@@ -50,42 +51,48 @@ public class RefundReportActivity extends BaseActivity implements RefundReportCo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refund_report);
 
-        int selectedProjectIndex = getIntent().getExtras().getInt(PROJECT_INDEX, 0);
+        if(!isLogged()) {
+            onUserNotLogged();
+            return;
+        } else {
 
-        RefundReportContract.ChildView childView = (RefundReportContract.ChildView)getSupportFragmentManager().findFragmentById(R.id.refund_list_fragment);
+            int selectedProjectIndex = getIntent().getExtras().getInt(PROJECT_INDEX, 0);
 
-        RefundReportComponent mComponent = ((TimesheetApplication)getApplication())
-                .getUserComponent()
-                .getRefundReportComponentBuilder()
-                .childView(childView)
-                .projectIndex(selectedProjectIndex)
-                .view(this)
-                .build();
+            RefundReportContract.ChildView childView = (RefundReportContract.ChildView) getSupportFragmentManager().findFragmentById(R.id.refund_list_fragment);
 
-        mComponent.inject(this);
-        mComponent.inject((RefundListFragment)childView);
+            RefundReportComponent mComponent = ((TimesheetApplication) getApplication())
+                    .getUserComponent()
+                    .getRefundReportComponentBuilder()
+                    .childView(childView)
+                    .projectIndex(selectedProjectIndex)
+                    .view(this)
+                    .build();
 
-        childView.bindPresenter(mPresenter);
+            mComponent.inject(this);
+            mComponent.inject((RefundListFragment) childView);
 
-        currencySpinner = findViewById(R.id.currency_spinner);
-        totalTextView = findViewById(R.id.total);
-        advance = findViewById(R.id.advance_edit_text);
+            childView.bindPresenter(mPresenter);
 
-        advance.addTextChangedListener(getTextChangedListener());
+            currencySpinner = findViewById(R.id.currency_spinner);
+            totalTextView = findViewById(R.id.total);
+            advance = findViewById(R.id.advance_edit_text);
 
-        currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.onCurrencySelected(position);
-            }
+            advance.addTextChangedListener(getTextChangedListener());
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mPresenter.onCurrencySelected(position);
+                }
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-        mPresenter.fetchData();
+                }
+            });
+
+            mPresenter.fetchData();
+        }
     }
 
     @Override

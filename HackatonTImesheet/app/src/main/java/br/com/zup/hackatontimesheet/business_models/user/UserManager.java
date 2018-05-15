@@ -29,6 +29,10 @@ public class UserManager {
                 .build();
     }
 
+    public boolean isLogged() {
+        return userComponent != null;
+    }
+
     public void logout() {
         this.userComponent = null;
     }
