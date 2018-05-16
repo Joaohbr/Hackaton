@@ -34,7 +34,7 @@ public class RefundReportActivity extends LoggedActivity implements RefundReport
     private static final String PROJECT_INDEX = "projectIndex";
 
     private Spinner currencySpinner;
-    private TextView totalTextView;
+    private TextView totalTextView, projectNameTextView, totalTitleTextView;
     private TextInputEditText advance;
 
     @Inject
@@ -74,8 +74,10 @@ public class RefundReportActivity extends LoggedActivity implements RefundReport
             childView.bindPresenter(mPresenter);
 
             currencySpinner = findViewById(R.id.currency_spinner);
-            totalTextView = findViewById(R.id.total);
+            totalTextView = findViewById(R.id.total_value);
             advance = findViewById(R.id.advance_edit_text);
+            projectNameTextView = findViewById(R.id.project_name);
+            totalTitleTextView = findViewById(R.id.total_title);
 
             advance.addTextChangedListener(getTextChangedListener());
 
@@ -96,6 +98,11 @@ public class RefundReportActivity extends LoggedActivity implements RefundReport
     }
 
     @Override
+    public void setupAdvance(String advance) {
+        this.advance.setText(advance);
+    }
+
+    @Override
     public void setupCurrencySpinner(String[] currencies) {
         SimpleSpinnerAdapter adapter = new SimpleSpinnerAdapter(this, currencies);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -103,11 +110,16 @@ public class RefundReportActivity extends LoggedActivity implements RefundReport
     }
 
     @Override
-    public void updateTotalValue(String total, boolean isNegative) {
+    public void setupProjectName(String projectName) {
+        projectNameTextView.setText(projectName);
+    }
+
+    @Override
+    public void updateTotalValue(String total, String title, boolean isNegative) {
         totalTextView.setTextColor(isNegative ?
                 getResources().getColor(R.color.colorRed) : getResources().getColor(R.color.colorPrimaryLegacy));
         totalTextView.setText(total);
-
+        totalTitleTextView.setText(title);
     }
 
     @Override
@@ -122,6 +134,24 @@ public class RefundReportActivity extends LoggedActivity implements RefundReport
         builder.setMessage(R.string.label_empty_report);
         // Create the AlertDialog
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
+    @Override
+    public void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton(R.string.action_ack, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                currencySpinner.setSelection(0);
+                advance.setText("0");
+            }
+        });
+        builder.setTitle(R.string.title_success);
+        builder.setMessage(R.string.label_refund_report_success);
+        // Create the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

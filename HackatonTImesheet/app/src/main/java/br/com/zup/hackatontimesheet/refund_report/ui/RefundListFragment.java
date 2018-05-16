@@ -137,21 +137,6 @@ public class RefundListFragment extends ListAndFABFragment
     }
 
     @Override
-    public void showSuccessDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setNegativeButton(R.string.action_ack, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-        builder.setTitle(R.string.title_success);
-        builder.setMessage(R.string.label_refund_report_success);
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    @Override
     public void cleanAdapter() {
         mAdapter.setList(new ArrayList<RefundEntry>());
         mPresenter.onRefundEntryChanged(mAdapter.getTotalSum());

@@ -37,6 +37,8 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
     private int editItemIndex = NO_SELECTION;
     private boolean isLoading;
 
+    private final String titleCredit = "Total a receber:", titleDebit = "Total a ser devolvido:";
+
     @Inject
     public RefundReportPresenter(RefundReportContract.View view, RefundReportContract.ChildView childView, ExpensesRepository repository, Employee employee, GeneralData appData, Integer selectedProject) {
         this.mView = checkNotNull(view);
@@ -58,10 +60,15 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
 
         List<RefundEntry> list = new ArrayList<>();
         mChildView.showRefundEntries(list);
+        mView.setupAdvance("0");
+        mView.setupProjectName("Projeto: "+mEmployee.getProjects().get(selectedProject).getName());
     }
 
     @Override
     public void onAddRefundEntry() {
+        if(isLoading)
+            return;
+
         mChildView.openRefundEntry(null);
     }
 
@@ -77,6 +84,9 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
 
     @Override
     public void onRefundEntryClick(RefundEntry entry, int position) {
+        if(isLoading)
+            return;
+
         editItemIndex = position;
         mChildView.openRefundEntry(entry);
     }
@@ -108,7 +118,7 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
                     isLoading = false;
                     mChildView.enableLoading(false);
                     mChildView.cleanAdapter();
-                    mChildView.showSuccessDialog();
+                    mView.showSuccessDialog();
                 }
 
                 @Override
@@ -128,13 +138,13 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
         advanceValue = advance.isEmpty() ? 0.0f : Double.parseDouble(advance);
         totalValue -= advanceValue;
 
-        mView.updateTotalValue(getTotalFormatted(),totalValue < 0);
+        mView.updateTotalValue(getTotalFormatted(), totalValue < 0 ? titleDebit : titleCredit, totalValue < 0);
     }
 
     @Override
     public void onCurrencySelected(int index) {
         selectedCurrency = index;
-        mView.updateTotalValue(getTotalFormatted(), totalValue < 0);
+        mView.updateTotalValue(getTotalFormatted(), totalValue < 0 ? titleDebit : titleCredit, totalValue < 0);
     }
 
     @Override
@@ -142,13 +152,12 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
         totalValue -= entriesTotal;
         entriesTotal = total;
         totalValue += entriesTotal;
-        mView.updateTotalValue(getTotalFormatted(), totalValue < 0 );
+        mView.updateTotalValue(getTotalFormatted(), totalValue < 0 ? titleDebit : titleCredit, totalValue < 0 );
     }
 
     private String getTotalFormatted() {
         String symbol = selectedCurrency == 0 ? "R$" : mAppData.getCurrencies().get(selectedCurrency-1).getSymbol();
-
-        return  symbol + String.format("%.2f", totalValue);
+        return  symbol + String.format("%.2f", Math.abs(totalValue));
     }
 
     private RefundReport createReport(List<ReportExpense> expenses) {

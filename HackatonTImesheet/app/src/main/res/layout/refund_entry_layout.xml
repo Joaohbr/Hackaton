@@ -102,7 +102,7 @@
                 android:layout_width="@dimen/picture_button_size"
                 android:layout_height="@dimen/picture_button_size"
                 android:tint="@color/colorGray"
-                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/receipt_image_buttons_distance"
                 android:clickable="true"
                 android:src="@drawable/ic_baseline_photo_camera_24dp"/>
 

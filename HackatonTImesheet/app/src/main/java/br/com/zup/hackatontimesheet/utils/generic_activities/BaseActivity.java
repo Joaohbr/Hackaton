@@ -34,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         builder.setMessage(R.string.label_something_went_wrong);
         // Create the AlertDialog
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

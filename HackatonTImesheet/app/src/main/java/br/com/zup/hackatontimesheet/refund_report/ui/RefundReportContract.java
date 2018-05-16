@@ -10,11 +10,17 @@ import br.com.zup.hackatontimesheet.refund_report.model.RefundEntry;
 
 public interface RefundReportContract {
     interface View {
+        void setupAdvance(String advance);
+
         void setupCurrencySpinner(String [] currencies);
 
-        void updateTotalValue(String total, boolean isNegative);
+        void setupProjectName(String projectName);
+
+        void updateTotalValue(String total, String title, boolean isNegative);
 
         void showEmptyError();
+
+        void showSuccessDialog();
 
         void onError();
     }
@@ -33,8 +39,6 @@ public interface RefundReportContract {
         void cleanAdapter();
 
         void enableLoading(boolean enable);
-
-        void showSuccessDialog();
 
         List<RefundEntry> getEntries();
     }

@@ -35,12 +35,13 @@ import br.com.zup.hackatontimesheet.application.TimesheetApplication;
 import br.com.zup.hackatontimesheet.refund_report.model.RefundEntry;
 import br.com.zup.hackatontimesheet.commons.adapters.SimpleSpinnerAdapter;
 import br.com.zup.hackatontimesheet.utils.generic_activities.BaseActivity;
+import br.com.zup.hackatontimesheet.utils.generic_activities.LoggedActivity;
 
 /**
  * Created by joaoh on 13/04/2018.
  */
 
-public class RefundEntryActivity extends BaseActivity implements RefundEntryContract.View {
+public class RefundEntryActivity extends LoggedActivity implements RefundEntryContract.View {
 
     private static final String ENTRY = "entry";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -81,48 +82,54 @@ public class RefundEntryActivity extends BaseActivity implements RefundEntryCont
         takePicture = findViewById(R.id.iv_take_picture);
         openGallery = findViewById(R.id.iv_open_gallery);
 
-        ((TimesheetApplication)getApplication())
-                .getUserComponent()
-                .getRefundEntryComponentBuilder()
-                .view(this)
-                .build()
-                .inject(this);
+        if(!isLogged()) {
+            onUserNotLogged();
+            return;
+        } else {
+
+            ((TimesheetApplication) getApplication())
+                    .getUserComponent()
+                    .getRefundEntryComponentBuilder()
+                    .view(this)
+                    .build()
+                    .inject(this);
 
 
-        mCalendar = Calendar.getInstance();
+            mCalendar = Calendar.getInstance();
 
-        saveButton.setOnClickListener(getSaveClickListener());
+            saveButton.setOnClickListener(getSaveClickListener());
 
-        datePicker.setOnClickListener(new View.OnClickListener() {
+            datePicker.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(RefundEntryActivity.this, getDateSetListener(), mCalendar
-                        .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
-                        mCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
-        takePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                @Override
+                public void onClick(View v) {
+                    new DatePickerDialog(RefundEntryActivity.this, getDateSetListener(), mCalendar
+                            .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
+                            mCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 }
-            }
-        });
+            });
 
-        openGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openGallery = new Intent(Intent.ACTION_PICK);//, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                openGallery.setType("image/*");
-                startActivityForResult(openGallery, REQUEST_LOAD_IMAGE);
-            }
-        });
+            takePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    }
+                }
+            });
 
-        mPresenter.fetchData((RefundEntry)getIntent().getExtras().getParcelable(ENTRY));
+            openGallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent openGallery = new Intent(Intent.ACTION_PICK);//, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    openGallery.setType("image/*");
+                    startActivityForResult(openGallery, REQUEST_LOAD_IMAGE);
+                }
+            });
+
+            mPresenter.fetchData((RefundEntry) getIntent().getExtras().getParcelable(ENTRY));
+        }
     }
 
     @Override
@@ -256,6 +263,7 @@ public class RefundEntryActivity extends BaseActivity implements RefundEntryCont
         builder.setMessage(messageId);
         // Create the AlertDialog
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

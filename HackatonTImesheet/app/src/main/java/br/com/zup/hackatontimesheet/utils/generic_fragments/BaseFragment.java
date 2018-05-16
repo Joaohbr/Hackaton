@@ -23,6 +23,7 @@ public abstract class BaseFragment extends Fragment {
         builder.setMessage(R.string.label_something_went_wrong);
         // Create the AlertDialog
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 }
