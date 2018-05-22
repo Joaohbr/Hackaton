@@ -161,9 +161,12 @@ public class RefundReportPresenter implements RefundReportContract.Presenter {
     }
 
     private RefundReport createReport(List<ReportExpense> expenses) {
+        String managerId = mEmployee.getId().equals(mEmployee.getProjects().get(selectedProject).getManagerId()) ?
+                mEmployee.getExpenseApprover() : mEmployee.getProjects().get(selectedProject).getManagerId();
+
         return new RefundReport(
                 new Double(advanceValue),
-                mEmployee.getExpenseApprover(),
+                managerId,
                 new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()),
                 Integer.parseInt(mEmployee.getId()),
                 expenses.size(),

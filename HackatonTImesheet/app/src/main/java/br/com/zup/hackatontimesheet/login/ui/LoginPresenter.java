@@ -33,7 +33,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void signIn(GoogleSignInAccount account) {
-        mRepository.getEmployee(defaultEmail, new EmployeeRepository.getEmployeeCallback() {
+        mRepository.getEmployee(account.getEmail(), new EmployeeRepository.getEmployeeCallback() {
             @Override
             public void onSuccess(Employee response) {
                 loadApplicationData(response);

@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </activity>
+        </activity>x
 
         <activity
             android:name=".home.ui.HomeActivity"
